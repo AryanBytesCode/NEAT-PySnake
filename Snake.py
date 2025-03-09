@@ -7,8 +7,9 @@ import os
 import random
 import time
 from colorama import Fore, Style
+import sys
 
-GAME_SPEED = 2
+GAME_SPEED = 5
 
 GRID_WITDH = 10
 GRID_HEIGHT = 10
@@ -33,8 +34,10 @@ def clear_screen():
 
 class snake:
     def __init__(self):
+        print("reset")
         self.head_x = random.randint(0,GRID_WITDH-1)
         self.head_y = random.randint(0, GRID_HEIGHT-1)
+        print(self.head_y, self.head_x)
         self.direction = [1,0]
         self.snakeSize = 1
         self.speed = 2          ## two cells per second
@@ -51,6 +54,12 @@ class snake:
         destination_x = directionVector[0] + self.head_x
         destination_y = directionVector[1] + self.head_y
 
+        # Check if we will hit the walls and restart the snake
+        if destination_x < 0 or destination_x > GRID_WITDH-1 or destination_y < 0 or destination_y > GRID_HEIGHT-1:
+            self.__init__()
+            # stop the rest of the function
+            return
+            ...  
         #newcellValue = gameState[destination_y, destination_x] 
         newcellValue = [destination_x, destination_y]
         
@@ -79,7 +88,7 @@ class snake:
             self.head_x = destination_x
             self.head_y = destination_y
 
-
+        
         self.direction = directionVector
     
     def grow(self):
@@ -89,16 +98,15 @@ class snake:
     def addnewFruit(self):
         isOccupied = True
         while isOccupied: 
-            self.fruit_x = random.randint(0,GRID_WITDH-1)
+            self.fruit_x = random.randint(0, GRID_WITDH-1)
             self.fruit_y = random.randint(0, GRID_HEIGHT-1)
 
             # check if the random location is part of the snake
-
-            if self.fruit_x == self.head_x and self.fruit_y == self.head_y:
-                isOccupied = True
-            else:
-                isOccupied = False
-        ...
+            isOccupied = False
+            for tile in self.locations:
+                if tile[0] == self.fruit_x and tile[1] == self.fruit_y:
+                    isOccupied = True
+        
     def die(self):
         ...
 
@@ -158,6 +166,8 @@ def updateGameState():
 
 def draw(state):
 
+    #print(newSnake.head_x, newSnake.head_y)
+    
     def codeToString(code):
         if code == 0:
             return EMPTY_CELL
