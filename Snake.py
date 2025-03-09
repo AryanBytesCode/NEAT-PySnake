@@ -9,7 +9,7 @@ import time
 from colorama import Fore, Style
 import sys
 
-GAME_SPEED = 2
+GAME_SPEED = 5
 
 GRID_WITDH = 10
 GRID_HEIGHT = 10
@@ -55,7 +55,7 @@ class snake:
         destination_y = directionVector[1] + self.head_y
 
         # Check if we will hit the walls and restart the snake
-        if destination_x < 0 or destination_x > 9 or destination_y < 0 or destination_y > 9:
+        if destination_x < 0 or destination_x > GRID_WITDH-1 or destination_y < 0 or destination_y > GRID_HEIGHT-1:
             self.__init__()
             # stop the rest of the function
             return
@@ -98,16 +98,15 @@ class snake:
     def addnewFruit(self):
         isOccupied = True
         while isOccupied: 
-            self.fruit_x = random.randint(0,GRID_WITDH-1)
+            self.fruit_x = random.randint(0, GRID_WITDH-1)
             self.fruit_y = random.randint(0, GRID_HEIGHT-1)
 
             # check if the random location is part of the snake
-
-            if self.fruit_x == self.head_x and self.fruit_y == self.head_y:
-                isOccupied = True
-            else:
-                isOccupied = False
-        ...
+            isOccupied = False
+            for tile in self.locations:
+                if tile[0] == self.fruit_x and tile[1] == self.fruit_y:
+                    isOccupied = True
+        
     def die(self):
         ...
 
