@@ -5,8 +5,8 @@ import random
 import time
 
 # Define constants
-GRID_WIDTH = 30
-GRID_HEIGHT = 30
+GRID_WIDTH = 20
+GRID_HEIGHT = 20
 TILE_SIZE = 10
 GAP = 2
 CANVAS_SIZE_X = GRID_WIDTH * TILE_SIZE + GAP * GRID_WIDTH
@@ -115,8 +115,6 @@ class snake:
 
         
         self.direction = directionVector
-        print("Snake")
-        print(self.head_x, self.head_y)
     
     def grow(self):
         self.snakeSize = self.snakeSize + 1
@@ -127,16 +125,22 @@ class snake:
         while isOccupied: 
             self.fruit_x = random.randint(0, GRID_WIDTH-1)
             self.fruit_y = random.randint(0, GRID_HEIGHT-1)
-            print("new fruit baby")
-            print(self.fruit_x, self.fruit_y)
             # check if the random location is part of the snake
             isOccupied = False
             for tile in self.locations:
                 if tile[0] == self.fruit_x and tile[1] == self.fruit_y:
-                    print("oops")
                     isOccupied = True
         
     def die(self):
+        ...
+    def see(self):
+        # Snake length
+        self.AI_Input_length = self.snakeSize
+        # the whole gameState
+        self.AI_Input_gameState = gameState # This should be changed after every gamestate update
+        # distance of head to fruit as a 2d array
+        distance = np.array([self.head_x,self.head_y]) - np.array([self.fruit_x, self.fruit_y])
+        self.AI_Input_distance = distance
         ...
 
 def updateGameState():
@@ -184,6 +188,8 @@ while running:
     
     # Update gameState
     gameState = updateGameState()
+
+    newSnake.see()
 
     # Draw gameState
     draw(gameState)
