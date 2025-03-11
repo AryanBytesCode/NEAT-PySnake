@@ -11,8 +11,8 @@ import sys
 
 GAME_SPEED = 5
 
-GRID_WITDH = 10
-GRID_HEIGHT = 10
+GRID_WITDH = 15
+GRID_HEIGHT = 15
 
 EMPTY_CELL = Style.RESET_ALL+ "[ ]"
 SNAKE_CELL = Fore.BLUE + "[O]"
@@ -152,7 +152,7 @@ def on_key_press(event):
 def updateGameState():
     # set everything to zero
     gameState = np.zeros((GRID_HEIGHT,GRID_WITDH))
-
+    
     # add snake tiles
 
     for tile in newSnake.locations:
